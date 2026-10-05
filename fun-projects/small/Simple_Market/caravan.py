@@ -1,5 +1,5 @@
 import math
-
+import pygame
 class Caravan:
     def __init__(self, start_x, start_y, target_node, goods_count, payout_per_unit):
         self.x = float(start_x)
@@ -43,7 +43,7 @@ class Caravan:
         if self.state == "DELIVERING":
             # 1. Swap goods for money at the town
             self.held_currency = self.goods * self.payout_per_unit
-            self.target_node.raw_goods_inventory += self.goods
+            self.target_node.inventory += self.goods
             self.target_node.currency -= self.held_currency
             self.goods = 0
 
@@ -57,3 +57,6 @@ class Caravan:
 
             # 2. Mark as finished so main loop can delete it
             self.state = "ARRIVED_HOME"
+
+    def draw(self, surface):
+        pygame.draw.circle(surface, self.color, (int(self.x), int(self.y)), 5)
